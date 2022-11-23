@@ -1,28 +1,29 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, status
 from typing import Optional
-from starlette.exceptions import HTTPException as StarletteHTTPException
-from fastapi.responses import JSONResponse
 import schemas
 from password_generator import PassGenerator
 
-app = FastAPI()
+PASSWORD_LENGTH_LIMIT = 200
+
+app = FastAPI(
+    title="Password on Demand",
+    description="Generate random password based on selected flags")
 
 
-@app.exception_handler(StarletteHTTPException)
-def resource_not_found(request: Request, exc):
-    return JSONResponse(
-        status_code=404,
-        content={"details": "Invalid resource URI"}
-    )
+@app.get("/api/v1/password", response_model=schemas.Password, tags=["Generate Password"], description="Generate password based on selection")
+async def get_password(pwd_length: Optional[int] = 10,
+                uppercase: Optional[bool] = False,
+                lowercase: Optional[bool] = False,
+                number: Optional[bool] = False,
+                special_char: Optional[bool] = False):
 
-@app.get("/api/v1/password", response_model=schemas.Password, tags=["Generate Password"], description="Generate random password based on selection")
-async def get_password(
-                    pwd_length: Optional[int] = 10,
-                    uppercase: Optional[bool] = False,
-                    lowercase: Optional[bool] = False,
-                    number: Optional[bool] = False,
-                    special_char: Optional[bool] = False 
-                ):
+    if not uppercase and not lowercase and not number and not special_char:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, 
+                    detail="Switch atleast one flag from uppercase, lowercase, number or special_char")
+
+    if pwd_length > PASSWORD_LENGTH_LIMIT:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, 
+                    detail=f"Password length exceeded limit of {PASSWORD_LENGTH_LIMIT}")
 
     generator = PassGenerator(pwd_length,uppercase, lowercase, number, special_char)
     passwd = generator.generate_psw()
