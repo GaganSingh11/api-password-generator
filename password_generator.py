@@ -1,7 +1,7 @@
 import random
 
 class PassGenerator:
-    def __init__(self, length=10, upper=False, lower=False, number=False, specialchar=False) -> None:
+    def __init__(self, length, upper, lower, number, specialchar) -> None:
         self.length = length
         self.upper = upper
         self.lower = lower
@@ -21,26 +21,27 @@ class PassGenerator:
             'special_char': ['!', '@', '#', '$', '%', '&', '?','^', '*', '(', ')', '_', '-', '+', '=', '{', '}','[', ']', '|', ':', ';', '<', '>','.']
         }
 
-        choices = []
+        pool = []
 
         if self.upper:
-            choices.extend(collection['uppercase'])
+            pool.extend(collection['uppercase'])
         if self.lower:
-            choices.extend(collection['lowercase'])
+            pool.extend(collection['lowercase'])
         if self.number:
-            choices.extend(collection['numbers'])
+            pool.extend(collection['numbers'])
         if self.specialchar:
-            choices.extend(collection['special_char'])
-        
+            pool.extend(collection['special_char'])
 
         passwd = ''
-        for element in range(self.length):
-            passwd = passwd + random.choice(choices)
+        if not self.upper and not self.lower and not self.number and not self.specialchar:
+            passwd = "very&unsafe&password"
+        else:
+            for _ in range(self.length):
+                passwd = passwd + random.choice(pool)
 
         return passwd
 
 
-
 if __name__ == '__main__':
-    passwd = PassGenerator(upper=True, lower=True, number=True, specialchar=True).generate_psw()
+    passwd = PassGenerator().generate_psw()
     print(passwd)
