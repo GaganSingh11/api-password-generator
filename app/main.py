@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from typing import Optional
-import schemas
-from password_generator import PassGenerator
+import app.schemas as schemas
+from app.password_generator import PassGenerator
 
 PASSWORD_LENGTH_LIMIT = 200
 
