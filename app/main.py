@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from typing import Optional
-import app.schemas as schemas
-from app.password_generator import PassGenerator
+from .schemas import Password
+from .password_generator import PassGenerator
 
 PASSWORD_LENGTH_LIMIT = 200
 
@@ -10,7 +10,7 @@ app = FastAPI(
     description="Generate random password based on selected flags")
 
 
-@app.get("/api/v1/password", response_model=schemas.Password, tags=["Generate Password"], description="Generate password based on selection")
+@app.get("/api/v1/password", response_model=Password, tags=["Generate Password"], description="Generate password based on selection")
 async def get_password(pwd_length: Optional[int] = 10,
                 uppercase: Optional[bool] = False,
                 lowercase: Optional[bool] = False,
