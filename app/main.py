@@ -19,7 +19,7 @@ async def get_password(pwd_length: Optional[int] = 10,
 
     if not uppercase and not lowercase and not number and not special_char:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, 
-                    detail="Switch atleast one flag from uppercase, lowercase, number or special_char")
+                    detail="Switch on atleast one flag from uppercase, lowercase, number or special_char")
 
     if pwd_length > PASSWORD_LENGTH_LIMIT:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, 
