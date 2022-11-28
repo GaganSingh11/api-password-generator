@@ -51,3 +51,56 @@ def test_lowercase():
 
     assert with_lower == True
     assert without_lower == False
+
+def test_number():
+
+    numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    with_num = False
+    without_num = False
+
+    psw_with_num = PassGenerator(length=10, upper=True, lower=True, number=True, specialchar=True).generate_psw()
+    psw_without_num = PassGenerator(length=10, upper=True, lower=True, number=False, specialchar=True).generate_psw()
+
+    for number in numbers:
+        if number in psw_with_num:
+            with_num = True
+            break
+    
+    for number in numbers:
+        if number in psw_without_num:
+            without_num = True
+            break
+    
+    assert with_num == True
+    assert without_num == False
+
+def test_char():
+
+    characters = ["!", "@", "#", "$", "%", "&", "?","^", "*", "(", ")", "_", "-", "+", "=", "{", "}","[", "]", "|", ":", ";", "<", ">","."]
+
+    with_char = False
+    without_char = False
+
+    psw_with_char = PassGenerator(length=10, upper=True, lower=True, number=True, specialchar=True).generate_psw()
+    psw_without_char = PassGenerator(length=10, upper=True, lower=True, number=True, specialchar=False).generate_psw()
+
+    for char in characters:
+        if char in psw_with_char:
+            with_char = True
+            break
+
+    for char in characters:
+        if char in psw_without_char:
+            without_char = True
+            break
+
+    assert with_char == True
+    assert without_char == False
+
+def test_no_param():
+    try:
+        no_param = PassGenerator().generate_psw()
+        assert False
+    except TypeError:
+        assert True
