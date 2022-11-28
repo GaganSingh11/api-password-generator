@@ -98,6 +98,7 @@ def test_char():
     assert with_char == True
     assert without_char == False
 
+
 def test_no_param():
     try:
         no_param = PassGenerator().generate_psw()
