@@ -26,5 +26,24 @@ def test_psw_default_length():
     psw = response.json()
     assert len(psw["password"]) == 10
 
-# def test_flag_effectivness():
-#     pass
+def test_flag_effectivness():
+    response = client.get("/api/v1/password?uppercase=true&lowercase=true&number=true&special_char=true")
+
+    psw = response.json()
+    psw_string = psw["password"]
+
+    upper, lower, number, char = False, False, False, False
+    for item in psw_string:
+        if item in "abcdefghijklmnopqrstuvwxyz":
+            lower = True
+        if item in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            upper = True
+        if item in "0123456789":
+            number = True
+        if item in "!@#$%&?^*()_-+={}[]|:;<>.":
+            char = True
+
+    assert upper == True
+    assert lower == True
+    assert number == True
+    assert char == True

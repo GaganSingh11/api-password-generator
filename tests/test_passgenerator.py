@@ -7,7 +7,7 @@ def test_psw_length():
 
 def test_uppercase():
 
-    uppcase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
+    uppercase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
                 "T", "U", "V", "W", "X", "Y", "Z"]
     with_upper = False
     without_upper = False
@@ -15,12 +15,12 @@ def test_uppercase():
     psw_with_upper = PassGenerator(length=10, upper=True, lower=True, number=True, specialchar=True).generate_psw()
     psw_without_upper = PassGenerator(length=10, upper=False, lower=True, number=True, specialchar=True).generate_psw()
 
-    for letter in uppcase:
+    for letter in uppercase:
         if letter in psw_with_upper:
             with_upper = True
             break
     
-    for letter in uppcase:
+    for letter in uppercase:
         if letter in psw_without_upper:
             without_upper = True
             break 
