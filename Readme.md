@@ -119,6 +119,8 @@ To check all docker images in container registry click [dockerhub](https://hub.d
 
 To check CI workflow please click [github action](https://github.com/GaganSingh11/api-password-generator/actions)
 
+### Development Flow
+![Development Flow](./development-flow.png)
 
 
 
