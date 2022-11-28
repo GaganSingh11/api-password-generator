@@ -1,6 +1,11 @@
 import random
 
 class PassGenerator:
+    """
+    Accept params / flags: length, upper, lower, number and specialchar
+
+    Return: verified and randomly generated password string 
+    """
     def __init__(self, length, upper, lower, number, specialchar) -> None:
         self.length = length
         self.upper = upper
@@ -22,7 +27,7 @@ class PassGenerator:
             "special_char": ["!", "@", "#", "$", "%", "&", "?","^", "*", "(", ")", "_", "-", "+", "=", "{", "}","[", "]", "|", ":", ";", "<", ">","."]
         }
 
-        pool = []
+        pool = [] # create pool of characters to choose from
 
         if self.upper:
             pool.extend(collection["uppercase"])
@@ -38,8 +43,9 @@ class PassGenerator:
             passwd = ""
             for _ in range(self.length):
                 random.shuffle(pool)
-                passwd = passwd + random.choice(pool)
+                passwd = passwd + random.choice(pool) # randomly generated sample from pool / password string
 
+            # check if generated password contains character from active flags 
             constraint = []
             if self.upper:
                 constraint.append(any(char in collection["uppercase"] for char in passwd))
@@ -49,8 +55,7 @@ class PassGenerator:
                 constraint.append(any(char in collection["numbers"] for char in passwd))
             if self.specialchar:
                 constraint.append(any(char in collection["special_char"] for char in passwd))
-  
-            
+   
             if len(set(constraint)) == 1:
                 break
 

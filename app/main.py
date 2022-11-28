@@ -27,6 +27,11 @@ async def get_password(pwd_length: Optional[int] = 10,
                 lowercase: Optional[bool] = False,
                 number: Optional[bool] = False,
                 special_char: Optional[bool] = False):
+    """
+    Accept params / flags: pwd_length, uppercase, lowercase, number and special_char
+
+    Returns: randomly generate password 
+    """
 
     if not uppercase and not lowercase and not number and not special_char:
         raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, 
