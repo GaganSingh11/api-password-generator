@@ -9,6 +9,7 @@ class PassGenerator:
         self.specialchar = specialchar
 
     def generate_psw(self):
+        
         collection = {
             "uppercase": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
                           "T", "U", "V", "W", "X", "Y", "Z"],
@@ -32,13 +33,30 @@ class PassGenerator:
         if self.specialchar:
             pool.extend(collection["special_char"])
 
-        passwd = ""
-        for _ in range(self.length):
-            passwd = passwd + random.choice(pool)
+        while True:
+
+            passwd = ""
+            for _ in range(self.length):
+                random.shuffle(pool)
+                passwd = passwd + random.choice(pool)
+
+            constraint = []
+            if self.upper:
+                constraint.append(any(char in collection["uppercase"] for char in passwd))
+            if self.lower:
+                constraint.append(any(char in collection["lowercase"] for char in passwd))
+            if self.number:
+                constraint.append(any(char in collection["numbers"] for char in passwd))
+            if self.specialchar:
+                constraint.append(any(char in collection["special_char"] for char in passwd))
+  
+            
+            if len(set(constraint)) == 1:
+                break
 
         return passwd
 
 
 if __name__ == "__main__":
-    passwd = PassGenerator().generate_psw()
+    passwd = PassGenerator(length=10, upper=True, lower=True, number=True, specialchar=True).generate_psw()
     print(passwd)
