@@ -111,3 +111,8 @@ To run the test case
 
 To check swagger document please click [swagger](http://localhost:8000/docs/)
 
+### Container Registry
+
+To check all docker images in container registry click [dockerhub](https://hub.docker.com/repository/docker/gaganvorn/password-generator)
+
+

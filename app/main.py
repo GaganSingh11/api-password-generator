@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, status
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 from .schemas import Password
 from .password_generator import PassGenerator
 
@@ -8,6 +9,16 @@ PASSWORD_LENGTH_LIMIT = 200
 app = FastAPI(
     title="Password on Demand",
     description="Generate random password based on selected flags")
+
+origins = ["*"] # list of domain that are allowed to talk with this api
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/api/v1/password", response_model=Password, tags=["Generate Password"], description="Generate password based on selection")
